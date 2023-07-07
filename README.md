@@ -1,11 +1,14 @@
 # DEDnetSEC
+# wifucker.py
 testa senhas baseado em um algoritmo usado em wifis não tão seguros,que não tem seu nome e senha alterados(padrão),fazendo um calculo com BSSID e SSID estudado por mim
 
 foi modificado para celulares pra vc sair hackeando wifis como um verdadeiro insurgente do dedsec,muito util em casos de emergência
+_______________________________________
+# wifucker2.0.py
 
 o wifucker2.0 mostra dispositivos locais (util pra hackear cameras,usando o script wannasee no repositorio Jeanseven/BruteCam (https://github.com/Jeanpseven/BruteCam)
 _______________________________________
-# wifucker3.0
+# wifucker3.0.py
 # Conexão Automática a Redes Wi-Fi usando PyWiFi
 
 Este é um script Python que automatiza o processo de conexão a redes Wi-Fi utilizando a biblioteca PyWiFi. O script faz a varredura das redes Wi-Fi disponíveis, calcula a senha com base no BSSID (endereço MAC do ponto de acesso) e conecta-se automaticamente às redes encontradas.
