@@ -1,5 +1,9 @@
 import pywifi
 
+# Função para remover os ":" do BSSID
+def remover_dois_pontos(bssid):
+    return bssid.replace(":", "")
+
 # Inicializa o objeto Wifi
 wifi = pywifi.PyWiFi()
 
@@ -27,7 +31,7 @@ else:
     chosen_network = networks[choice - 1]
 
     # Remove os ":" do BSSID
-    bssid = chosen_network.bssid.replace(":", "")
+    bssid = remover_dois_pontos(chosen_network.bssid)
 
     # Remove os dois primeiros números do BSSID
     bssid = bssid[2:]
