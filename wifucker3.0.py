@@ -1,6 +1,4 @@
 import subprocess
-import pywifi
-from scapy.all import ARP, Ether, srp
 import time
 
 def verificar_e_instalar_dependencias():
@@ -42,6 +40,9 @@ def calcular_senha(bssid):
 
 def executar_script_wifi_termux():
     verificar_e_instalar_dependencias()
+
+    import pywifi
+    from scapy.all import ARP, Ether, srp
 
     wifi = pywifi.PyWiFi()
     iface = wifi.interfaces()[0]
