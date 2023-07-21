@@ -42,7 +42,7 @@ o script roda em segundo plano e obtém as redes de wifi automaticamente sem pre
 ## Contribuição
 
 Sinta-se à vontade para contribuir para o aprimoramento deste script. Caso encontre algum problema ou tenha alguma sugestão, por favor, abra uma nova issue ou envie um pull request.
-
+_______________________________________
 # wifucker4
 
 O script é uma ferramenta de linha de comando desenvolvida para fins educacionais e demonstrativos, denominada "DEDSEC WIFI ATTACK". Sua função é automatizar a identificação e possível quebra de senhas de redes Wi-Fi protegidas pelo protocolo WPA/WPA2 utilizando a vulnerabilidade do WPS (Wi-Fi Protected Setup).
