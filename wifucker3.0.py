@@ -1,6 +1,7 @@
 import subprocess
 import time
 import os
+import pywifi
 
 ctrl_iface_dir = '/var/run/wpa_supplicant'
 os.makedirs(ctrl_iface_dir, exist_ok=True)
