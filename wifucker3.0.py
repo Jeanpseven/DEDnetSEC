@@ -1,6 +1,9 @@
 import subprocess
 import time
 
+ctrl_iface_dir = '/var/run/wpa_supplicant'
+os.makedirs(ctrl_iface_dir, exist_ok=True)
+
 def verificar_e_instalar_dependencias():
     try:
         import pywifi
