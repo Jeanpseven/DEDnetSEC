@@ -49,6 +49,15 @@ def executar_script_wifi_termux():
     from scapy.all import ARP, Ether, srp
 
     wifi = pywifi.PyWiFi()
+wifi = pywifi.PyWiFi()
+interfaces = wifi.interfaces()
+
+if not interfaces:
+    print("No Wi-Fi interfaces found. Make sure your Wi-Fi is enabled.")
+    
+else:
+    iface = interfaces[0]
+    iface.enable()
     iface = wifi.interfaces()[0]
     iface.enable()
 
