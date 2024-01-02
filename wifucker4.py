@@ -129,7 +129,6 @@ def mon_man_mode(wname, mode):
 def show_wifi():
     os.system('clear')
     print(banner_text)
-    format = [["WIFI ADAPTER NAME"]]
     header = [colored('WIFI ADAPTER NAME', 'cyan')]
     format.append(header)
 
@@ -137,7 +136,7 @@ def show_wifi():
         wifi_name = str(element)
         format.append([f'{i}. ' + wifi_name])
 
-    print(tabulate(format, tablefmt='fancy_grid'))
+    print(tabulate(header, tablefmt='fancy_grid'))
 
     try:
         select = int(input('NO: '))
