@@ -129,25 +129,25 @@ def mon_man_mode(wname, mode):
 def show_wifi():
     os.system('clear')
     print(banner_text)
-    format = []
+    format = [["WIFI ADAPTER NAME"]]
     header = [colored('WIFI ADAPTER NAME', 'cyan')]
     format.append(header)
-    d = 0
-    for element in inter:
-        d += 1
+
+    for i, element in enumerate(inter, start=1):
         wifi_name = str(element)
-        format.append([f'{d}. ' + wifi_name])
+        format.append([f'{i}. ' + wifi_name])
+
     print(tabulate(format, tablefmt='fancy_grid'))
-    
+
     try:
         select = int(input('NO: '))
-        if select == select:
-            global wname
-            wname = inter_dict[select]
-        else:
-            pass
-    except KeyError:
+        global wname
+        wname = inter_dict.get(select)
+        if wname is None:
+            raise KeyError("Invalid selection.")
+    except (ValueError, KeyError):
         os.system('clear')
+        print("Invalid input. Please select a valid option.")
         show_wifi()
 
 def scanAP(wname):
